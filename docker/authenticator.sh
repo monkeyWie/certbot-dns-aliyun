@@ -19,7 +19,7 @@ if [ $STATUS == "ok" ]; then
     RECORD_ID=$(echo $RESULT | cut -d":" -f2)
     echo $RECORD_ID >/tmp/CERTBOT_$CERTBOT_DOMAIN/RECORD_ID
     # 等待10分钟，阿里云dns缓存刷新
-    sleep 600
+    sleep ${REFRESH_SLEEP:="600"}
 else
     echo $RESULT
 fi
