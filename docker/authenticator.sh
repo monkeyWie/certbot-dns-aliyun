@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # 阿里云API操作秘钥
-ACCESS_KEY_ID=""
-ACCESS_KEY_SECRET=""
+_ACCESS_KEY_ID=${ACCESS_KEY_ID:=""}
+_ACCESS_KEY_SECRET=${ACCESS_KEY_SECRET:=""}
 
 # 匹配域名和子域名
 DOMAIN=$(expr match "$CERTBOT_DOMAIN" '.*\.\(.*\..*\)')
 RR="_acme-challenge."$(expr match "$CERTBOT_DOMAIN" '\(.*\)\..*\..*')
 
 # 调用阿里云接口
-RESULT=$(./certbot-dns-aliyun -action create -id $ACCESS_KEY_ID -secret $ACCESS_KEY_SECRET -domain $DOMAIN -rr $RR -value $CERTBOT_VALIDATION)
+RESULT=$(/path/to/dns/certbot-dns-aliyun -action create -id $_ACCESS_KEY_ID -secret $_ACCESS_KEY_SECRET -domain $DOMAIN -rr $RR -value $CERTBOT_VALIDATION)
 STATUS=$(echo $RESULT | cut -d":" -f1)
 if [ $STATUS == "ok" ]; then
     # 保存记录ID
