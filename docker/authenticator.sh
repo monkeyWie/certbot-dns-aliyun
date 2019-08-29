@@ -5,8 +5,15 @@ _ACCESS_KEY_ID=${ACCESS_KEY_ID:=""}
 _ACCESS_KEY_SECRET=${ACCESS_KEY_SECRET:=""}
 
 # 匹配域名和子域名
-DOMAIN=$(expr match "$CERTBOT_DOMAIN" '.*\.\(.*\..*\)')
-RR="_acme-challenge."$(expr match "$CERTBOT_DOMAIN" '\(.*\)\..*\..*')
+DOMAIN=$(echo $CERTBOT_DOMAIN | grep -oP '[^\.]+\.[^\.]+$')
+CERTBOT_DOMAIN_LENGTH=$(expr length $CERTBOT_DOMAIN)
+DOMAIN_LENGTH=$(expr length $DOMAIN)
+if [ $(expr $CERTBOT_DOMAIN_LENGTH == $DOMAIN_LENGTH) == 1 ]; then
+    RR="_acme-challenge"
+else
+    SUB_LENGTH=$(expr $CERTBOT_DOMAIN_LENGTH - $DOMAIN_LENGTH - 1)
+    RR="_acme-challenge."$(expr substr $CERTBOT_DOMAIN 1 $SUB_LENGTH)
+fi
 
 # 调用阿里云接口
 RESULT=$(/path/to/dns/certbot-dns-aliyun -action create -id $_ACCESS_KEY_ID -secret $_ACCESS_KEY_SECRET -domain $DOMAIN -rr $RR -value $CERTBOT_VALIDATION)
