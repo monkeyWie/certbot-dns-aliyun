@@ -39,7 +39,7 @@ docker build -t certbot-aliyun:latest .
 docker run \
 --name cert \
 -itd \
--v /etc/letsencrypt/live:/etc/letsencrypt/live \
+-v /etc/letsencrypt:/etc/letsencrypt \
 -e ACCESS_KEY_ID=XXX \
 -e ACCESS_KEY_SECRET=XXX \
 liwei2633/certbot-aliyun
