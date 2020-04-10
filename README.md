@@ -3,13 +3,13 @@
 
 ### 编译
 ```shell
-bash build.sh
+sh build.sh
 ```
 
 ### 运行
 ```shell
-certbot-dns-aliyun.exe -h
-Usage of certbot-dns-aliyun.exe:
+certbot-aliyun -h
+Usage of certbot-aliyun:
   -action string
         create or delete
   -domain string
@@ -30,13 +30,23 @@ Usage of certbot-dns-aliyun.exe:
 
 ### docker
 ```
-cp certbot-dns-aliyun ./docker
+#构建
+cp certbot-aliyun ./docker
 cd docker
-docker build -t cert:latest .
+docker build -t certbot-aliyun:latest .
 
+#启动容器
 docker run \
--e ACCESS_KEY_ID=*** \
--e ACCESS_KEY_SECRET=*** \
 --name cert \
--itd certbot-aliyun:latest /bin/bash
+-itd \
+-v /etc/letsencrypt/live:/etc/letsencrypt/live \
+-e ACCESS_KEY_ID=XXX \
+-e ACCESS_KEY_SECRET=XXX \
+liwei2633/certbot-aliyun
+
+#首次创建证书，根据命令提示输入
+docker exec -it cert ./create.sh *.pdown.org
+
+#续签
+docker exec cert ./renew.sh
 ```

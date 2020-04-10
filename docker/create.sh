@@ -1,0 +1,2 @@
+#!/bin/bash
+certbot certonly -d $1 --manual --register-unsafely-without-email --manual-auth-hook /path/to/dns/authenticator.sh --manual-cleanup-hook /path/to/dns/cleanup.sh --preferred-challenges dns --server https://acme-v02.api.letsencrypt.org/directory

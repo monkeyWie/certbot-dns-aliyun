@@ -16,7 +16,7 @@ else
 fi
 
 # 调用阿里云接口
-RESULT=$(/path/to/dns/certbot-dns-aliyun -action create -id $_ACCESS_KEY_ID -secret $_ACCESS_KEY_SECRET -domain $DOMAIN -rr $RR -value $CERTBOT_VALIDATION)
+RESULT=$(/path/to/dns/certbot-aliyun -action create -id $_ACCESS_KEY_ID -secret $_ACCESS_KEY_SECRET -domain $DOMAIN -rr $RR -value $CERTBOT_VALIDATION)
 STATUS=$(echo $RESULT | cut -d":" -f1)
 if [ $STATUS == "ok" ]; then
     # 保存记录ID
@@ -25,8 +25,8 @@ if [ $STATUS == "ok" ]; then
     fi
     RECORD_ID=$(echo $RESULT | cut -d":" -f2)
     echo $RECORD_ID >/tmp/CERTBOT_$CERTBOT_DOMAIN/RECORD_ID
-    # 等待10分钟，阿里云dns缓存刷新
-    sleep ${REFRESH_SLEEP:="600"}
+    # 等待1分钟，阿里云dns缓存刷新
+    sleep ${REFRESH_SLEEP:="60"}
 else
     echo $RESULT
 fi
