@@ -44,7 +44,7 @@ docker run \
 -e ACCESS_KEY_SECRET=XXX \
 liwei2633/certbot-aliyun
 
-#首次创建证书，根据命令提示输入
+#首次创建证书，根据命令提示输入，多个域名用,隔开
 docker exec -it cert ./create.sh *.pdown.org
 
 #续签
